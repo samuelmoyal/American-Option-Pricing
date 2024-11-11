@@ -1,7 +1,7 @@
 # American-Option-Pricing
 
 
-For a full description of this project, please refer to the detailed [project documentation](report.pdf).
+For a full description of this project, please refer to the detailed [project documentation](Report.pdf).
 
 # Summary
 
