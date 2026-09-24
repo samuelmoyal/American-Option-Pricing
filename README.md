@@ -1,9 +1,6 @@
 # American-Option-Pricing
 
 
-For the theory, please refer to the [project report](Report.pdf) (March 2024). The numerical results of the
-report were produced by a buggy first version of the code; they are superseded by the notebooks and by the
-[Results](#results) section below (see [Corrections](#corrections)).
 
 # Summary
 
