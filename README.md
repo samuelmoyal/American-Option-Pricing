@@ -64,6 +64,24 @@ Put option, S0 = 100, σ = 20%, r = 5%, T = 1 year, 50 exercise dates. Reference
 - **Quantization** converges to the benchmark as the grid is refined: error +10.8% (20 points), +2.6% (50), +0.8% (100), +0.25% (200), +0.08% (400). The error is largest for deep out-of-the-money puts, where equally likely cells are coarse in the tail.
 - **LSM basis size**: m = 1 → −8.2%, m = 2 → −1.2%, m ≥ 3 → within Monte Carlo error.
 
+### Least Squares Monte Carlo vs benchmark
+
+The LSM price matches the Bermudan CRR tree across strikes, and sits above the European price (early-exercise premium):
+
+![LSM vs CRR across strikes](images/lsm_vs_strike.png)
+
+Convergence in the number of paths N (95% confidence intervals):
+
+![LSM convergence in N](images/lsm_convergence.png)
+
+### Quantization tree vs benchmark
+
+![Quantization vs CRR across strikes and volatilities](images/quantization_vs_crr.png)
+
+The relative error decreases steadily as the grid is refined:
+
+![Quantization error vs number of points](images/quantization_convergence.png)
+
 ## Corrections
 
 The first version (March 2024, described in `Report.pdf`) under-priced with LSM and gave inconsistent quantization prices. The causes, found and fixed:
