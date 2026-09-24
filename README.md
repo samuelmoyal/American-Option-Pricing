@@ -82,14 +82,3 @@ The relative error decreases steadily as the grid is refined:
 
 ![Quantization error vs number of points](images/quantization_convergence.png)
 
-## Corrections
-
-The first version (March 2024, described in `Report.pdf`) under-priced with LSM and gave inconsistent quantization prices. The causes, found and fixed:
-
-1. **r = 0 made the study degenerate.** Without interest rates or dividends, early exercise of a put is never optimal (the payoff is a submartingale), so the American put equals the European put. Prices now use r = 5% with discounting.
-2. **LSM regression basis.** `x^k` for k < 30 with x ≈ 100 gives regressors up to 10^58 (overflow, ill-conditioned problem solved with a Powell optimiser). Replaced by m = 4 Laguerre polynomials of S/K, solved exactly by least squares on in-the-money paths.
-3. **LSM stopping-time bug.** In `compute_premium`, the loop updating the stopping times was outside the backward loop, and the helper functions read the *global* `alpha` and `tau` from a different simulation. The exercise rule applied to each path came from other paths, which was the main cause of the under-pricing. The exercise decision at the last date before maturity was also never taken.
-4. **Quantization transition matrix.** `scipy.integrate.dblquad` passes `(inner, outer)` to the integrand; the variables were swapped and a spurious Jacobian factor was added, so the rows of the transition matrix summed to ~10^-114 instead of 1. There were also index errors (`[i]` instead of `[j]`) and wrong cell bounds. The matrix is now computed from the independence of S_t and S_{t+1}/S_t, with Gauss-Legendre quadrature, and its rows sum to 1.
-5. **Benchmark.** The "binomial model" was a *European* tree with only 10 steps. It is now an American/Bermudan CRR tree with thousands of steps.
-
-
